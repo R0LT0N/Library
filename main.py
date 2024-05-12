@@ -1,6 +1,7 @@
 import sqlite3
 
 def create_table():
+    #Создаем таблицу если её нету
     conn = sqlite3.connect('library.db')
     cursor = conn.cursor()
     cursor.execute('''
@@ -12,10 +13,11 @@ def create_table():
             genre TEXT NOT NULL
         )
     ''')
-    conn.commit()
+    conn.commit() 
     conn.close()
 
 def add_book():
+    #Добавление книги
     title = input("Введите название книги: ")
     author = input("Введите автора книги: ")
     description = input("Введите описание книги: ")
@@ -46,6 +48,7 @@ def add_book():
     print("Книга успешно добавлена!")
 
 def view_all_books():
+    #Вывод всех книг
     conn = sqlite3.connect('library.db')
     cursor = conn.cursor()
     cursor.execute("SELECT id, title, author FROM books")
@@ -58,23 +61,9 @@ def view_all_books():
     else:
         print("В библиотеке пока нет книг.")
 
-def view_book_details():
-    book_id = input("Введите ID книги: ")
-    conn = sqlite3.connect('library.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM books WHERE id = ?", (book_id,))
-    book = cursor.fetchone()
-    conn.close()
-
-    if book:
-        print("Название:", book[1])
-        print("Автор:", book[2])
-        print("Описание:", book[3])
-        print("Жанр:", book[4])
-    else:
-        print("Книга с таким ID не найдена.")
 
 def search_book():
+    #Поиск книг по клбчевому слову
     keyword = input("Введите ключевое слово для поиска: ")
     conn = sqlite3.connect('library.db')
     cursor = conn.cursor()
@@ -90,6 +79,7 @@ def search_book():
         print("Книги по вашему запросу не найдены.")
 
 def delete_book():
+    #Удаление книги
     book_id = input("Введите ID книги для удаления: ")
     conn = sqlite3.connect('library.db')
     cursor = conn.cursor()
@@ -99,6 +89,7 @@ def delete_book():
     print("Книга успешно удалена!")
 
 def view_books_by_genre():
+    #Вывод книг по жанру
     genre = input("Введите жанр: ")
     conn = sqlite3.connect('library.db')
     cursor = conn.cursor()
